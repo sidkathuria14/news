@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="sample heading"
+        android:textSize="30sp"
+        android:padding="15sp"
+        android:id="@+id/tv_title"
+        android:textColor="@color/colorAccent"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:text="ccbgcDWIIIIIIIIIIIIIIIIIIIIIIIIIIIFYUFVY7VYUFVWYIVYUAbdkhjdh bfdhfuhfjdhjfhdjfhjshlkhjfhsjljshdshdshdisyidysiydisyisydiysdidsyisdyI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+<LinearLayout
+    android:weightSum="2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/tv_publishedAt"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="2017-09-13T09:29:18Z"
+        android:padding="10sp"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_author"
+       android:layout_gravity="end"
+        android:layout_weight="1"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="author name"
+        android:padding="10sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+</LinearLayout>
