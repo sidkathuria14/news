@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.sidkathuria14.news.R;
+import com.example.sidkathuria14.news.javaModels.Article;
 import com.example.sidkathuria14.news.javaModels.java_model;
-import com.example.sidkathuria14.news.models.articles;
-import com.example.sidkathuria14.news.models.main;
+
 
 import java.util.ArrayList;
 
@@ -19,10 +19,15 @@ import java.util.ArrayList;
  */
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
-   private ArrayList<java_model.Article> arrayList;
+   private ArrayList<Article> arrayList;
     private Context context;
 
-    public NewsAdapter(ArrayList<java_model.Article> arrayList, Context context) {
+    public void updateNews(ArrayList<Article> newUserList) {
+        this.arrayList = newUserList;
+        notifyDataSetChanged();
+    }
+
+    public NewsAdapter(ArrayList<Article> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -41,7 +46,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 // articles myarticle = arrayList.get(position);
 //        articles myArticle = arrayList.get(position);
 
-        java_model.Article myModel = arrayList.get(position);
+        Article myModel = arrayList.get(position);
         holder.tv_description.setText(myModel.getDescription());
         holder.tv_title.setText(myModel.getTitle());
         holder.tv_publishedAt.setText(myModel.getPublishedAt());

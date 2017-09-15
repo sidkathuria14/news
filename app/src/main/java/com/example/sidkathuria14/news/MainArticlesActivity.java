@@ -16,9 +16,9 @@ import android.widget.Spinner;
 
 import com.example.sidkathuria14.news.adapters.NewsAdapter;
 import com.example.sidkathuria14.news.api.ArticlesApi;
+import com.example.sidkathuria14.news.javaModels.Article;
 import com.example.sidkathuria14.news.javaModels.java_model;
-import com.example.sidkathuria14.news.models.articles;
-import com.example.sidkathuria14.news.models.main;
+
 
 import java.util.ArrayList;
 
@@ -29,14 +29,18 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainArticlesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-RecyclerView rv;NewsAdapter myAdapter;Spinner sortBy_spinner,source_spinner;String source,sortBy;
+RecyclerView rv;
+    NewsAdapter myAdapter;
+    Spinner sortBy_spinner,source_spinner;
+    String source,sortBy;
+    ArrayList<Article> myArrayList = new ArrayList<>();
     public static final String TAG = "MainArticlesActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_articles);
 rv = (RecyclerView)findViewById(R.id.rv);
-        myAdapter = new NewsAdapter(new ArrayList<java_model.Article>(),this);
+        myAdapter = new NewsAdapter(new ArrayList<Article>(),this);
         rv.setAdapter(myAdapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -46,6 +50,7 @@ String source[] = {"al-jazeera-english","ars-technica","associated-press","bbc-n
 "business-insider-uk","buzzfeed","cnbc","cnn","daily-mail","der-tagesspiegel",
 "die-zeit","engadget","entertainment-weekly","espn","fpcus","football-italia","fortune",
 "four-four-two","fox-sports","google-news","gruenderszene","hacker-news","handelsblatt"};
+
         sortBy_spinner= (Spinner)findViewById(R.id.sortBy_spinner);
         source_spinner =  (Spinner)findViewById(R.id.source_spinner);
 
@@ -71,7 +76,28 @@ String source[] = {"al-jazeera-english","ars-technica","associated-press","bbc-n
      Callback<java_model> callback = new Callback<java_model>() {
          @Override
          public void onResponse(Call<java_model> call, Response<java_model> response) {
-             Log.d(TAG, "onResponse: " + response.body().getArticles().toString());
+             for(int i=0;i<4;++i) {
+                 Log.d(TAG, "onResponse: " + response.body().getArticles()[i].getAuthor() + "\n"
+                         + response.body().getArticles()[i].getTitle() + "\n"
+                         + response.body().getArticles()[i].getDescription() + "\n"
+                         + response.body().getArticles()[i].getPublishedAt() + "\n"
+                 );
+             }
+
+
+                 for (int i = 0; i < 4; ++i) {
+                     //    java_model.Article myArticle = new java_model();
+                     myArrayList.add(new Article(
+                             String.valueOf(response.body().getArticles()[i].getAuthor()),
+                             String.valueOf(response.body().getArticles()[i].getTitle()),
+                             String.valueOf(response.body().getArticles()[i].getPublishedAt()),
+                             String.valueOf(response.body().getArticles()[i].getDescription())));
+
+                 }
+
+
+             myAdapter.updateNews(myArrayList);
+
          }
 
          @Override

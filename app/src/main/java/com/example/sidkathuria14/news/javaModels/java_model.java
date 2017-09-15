@@ -8,6 +8,11 @@ public class java_model {
     String source;
     String sortBy;
     Article articles[];
+    String status;
+
+    public String getStatus() {
+        return status;
+    }
 
     public String getSource() {
         return source;
@@ -21,34 +26,11 @@ public class java_model {
         return articles;
     }
 
+//    public java_model(String source, String sortBy, Article[] articles) {
+//        this.source = source;
+//        this.sortBy = sortBy;
+//        this.articles = articles;
+//    }
 
-    public class Article{
-        String author;
-        String title;
-        String publishedAt;
-        String description;
 
-        public String getAuthor() {
-            return author;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getPublishedAt() {
-            return publishedAt;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public Article(String author, String title, String publishedAt, String description) {
-            this.author = author;
-            this.title = title;
-            this.publishedAt = publishedAt;
-            this.description = description;
-        }
-    }
 }

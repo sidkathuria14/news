@@ -1,8 +1,7 @@
 package com.example.sidkathuria14.news.api;
 
 import com.example.sidkathuria14.news.javaModels.java_model;
-import com.example.sidkathuria14.news.models.articles;
-import com.example.sidkathuria14.news.models.main;
+
 
 import java.util.ArrayList;
 
