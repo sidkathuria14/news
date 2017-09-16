@@ -28,8 +28,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.example.sidkathuria14.news.R.string.news_api_key;
+
 public class MainArticlesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 RecyclerView rv;
+    public static final String api_key = "f2ffb894fdcb45b0abda3fd3b51692ad";
     NewsAdapter myAdapter;
     Spinner sortBy_spinner,source_spinner;
     String source,sortBy;
@@ -44,8 +47,8 @@ rv = (RecyclerView)findViewById(R.id.rv);
         rv.setAdapter(myAdapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        String sortBy[] = {"top","latest","popular"};
-String source[] = {"al-jazeera-english","ars-technica","associated-press","bbc-news," +
+        String sortBy_array[] = {"top","latest","popular"};
+String source_array[] = {"al-jazeera-english","ars-technica","associated-press","bbc-news," +
         "bbc-sport","abc-news-au","bild","bloomberg","breitbart-insider","business-insider",
 "business-insider-uk","buzzfeed","cnbc","cnn","daily-mail","der-tagesspiegel",
 "die-zeit","engadget","entertainment-weekly","espn","fpcus","football-italia","fortune",
@@ -59,11 +62,12 @@ String source[] = {"al-jazeera-english","ars-technica","associated-press","bbc-n
         sortBy_spinner.setOnItemSelectedListener(this);
         source_spinner.setOnItemSelectedListener(this);
 
-        ArrayAdapter source_array= new ArrayAdapter(this,android.R.layout.simple_spinner_item,source);
-        ArrayAdapter sortBy_array= new ArrayAdapter(this,android.R.layout.simple_spinner_item,sortBy);
-        sortBy_array.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sortBy_spinner.setAdapter(sortBy_array);
-        source_spinner.setAdapter(source_array);
+        ArrayAdapter source_adapter= new ArrayAdapter(this,android.R.layout.simple_spinner_item,source_array);
+        ArrayAdapter sortBy_adapter= new ArrayAdapter(this,android.R.layout.simple_spinner_item,sortBy_array);
+        sortBy_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        source_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortBy_spinner.setAdapter(sortBy_adapter);
+        source_spinner.setAdapter(source_adapter);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://newsapi.org/v1/")
@@ -76,7 +80,7 @@ String source[] = {"al-jazeera-english","ars-technica","associated-press","bbc-n
      Callback<java_model> callback = new Callback<java_model>() {
          @Override
          public void onResponse(Call<java_model> call, Response<java_model> response) {
-             for(int i=0;i<4;++i) {
+             for(int i=0;i<1;++i) {
                  Log.d(TAG, "onResponse: " + response.body().getArticles()[i].getAuthor() + "\n"
                          + response.body().getArticles()[i].getTitle() + "\n"
                          + response.body().getArticles()[i].getDescription() + "\n"
@@ -105,20 +109,36 @@ String source[] = {"al-jazeera-english","ars-technica","associated-press","bbc-n
              Log.d(TAG, "onFailure: ");
          }
      };
-        articlesApi.call_java_model().enqueue(callback);
+        articlesApi.call_articles().enqueue(callback);
+
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if(view == source_spinner) {
-         source =  String.valueOf(adapterView.getItemAtPosition(i));
-            Log.d(TAG, "onItemSelected: " + source);
-        }
-        if(view == sortBy_spinner){
-            sortBy = String.valueOf(adapterView.getItemAtPosition(i));
-            Log.d(TAG, "onItemSelected: " + sortBy);
+//        if(view == source_spinner) {
+//         source =  String.valueOf(adapterView.getItemAtPosition(i));
+//            Log.d(TAG, "onItemSelected: " + source);
+//        }
+//        if(view == sortBy_spinner){
+//            sortBy = String.valueOf(adapterView.getItemAtPosition(i));
+//            Log.d(TAG, "onItemSelected: " + sortBy);
+//        }
+        switch (adapterView.getId()) {
+            case R.id.sortBy_spinner:
+                Log.d(TAG, "onItemSelected: " + adapterView.getItemAtPosition(i));
+                sortBy = adapterView.toString();
+                // do stuffs with you spinner 1
+                break;
+            case R.id.source_spinner:
+                Log.d(TAG, "onItemSelected: " + adapterView.getItemAtPosition(i));
+                // do stuffs with you spinner 2
+                source = adapterView.toString();
+                break;
+            default:
+                break;
         }
     }
+
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
