@@ -109,7 +109,7 @@ String source_array[] = {"al-jazeera-english","ars-technica","associated-press",
              Log.d(TAG, "onFailure: ");
          }
      };
-        articlesApi.call_articles().enqueue(callback);
+        articlesApi.call_articles(source,sortBy,api_key).enqueue(callback);
 
     }
 
@@ -127,12 +127,14 @@ String source_array[] = {"al-jazeera-english","ars-technica","associated-press",
             case R.id.sortBy_spinner:
                 Log.d(TAG, "onItemSelected: " + adapterView.getItemAtPosition(i));
                 sortBy = adapterView.toString();
+                myAdapter.updateNews(myArrayList);
                 // do stuffs with you spinner 1
                 break;
             case R.id.source_spinner:
                 Log.d(TAG, "onItemSelected: " + adapterView.getItemAtPosition(i));
                 // do stuffs with you spinner 2
                 source = adapterView.toString();
+                myAdapter.updateNews(myArrayList);
                 break;
             default:
                 break;
@@ -165,7 +167,7 @@ String source_array[] = {"al-jazeera-english","ars-technica","associated-press",
 
     int id = item.getItemId();
         if(id == R.id.menu_source){
-            startActivity(new Intent(MainArticlesActivity.this,MainSourceActivity.class));
+       //     startActivity(new Intent(MainArticlesActivity.this,MainSourceActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
