@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.sidkathuria14.news.adapters.NewsAdapter;
 import com.example.sidkathuria14.news.api.ArticlesApi;
@@ -48,7 +49,7 @@ rv = (RecyclerView)findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
         String sortBy_array[] = {"top","latest","popular"};
-String source_array[] = {"al-jazeera-english","ars-technica","associated-press","bbc-news," +
+String source_array[] = {"choose source"  ,  "al-jazeera-english"  ,  "ars-technica","associated-press","bbc-news," +
         "bbc-sport","abc-news-au","bild","bloomberg","breitbart-insider","business-insider",
 "business-insider-uk","buzzfeed","cnbc","cnn","daily-mail","der-tagesspiegel",
 "die-zeit","engadget","entertainment-weekly","espn","fpcus","football-italia","fortune",
@@ -69,48 +70,92 @@ String source_array[] = {"al-jazeera-english","ars-technica","associated-press",
         sortBy_spinner.setAdapter(sortBy_adapter);
         source_spinner.setAdapter(source_adapter);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://newsapi.org/v1/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("https://newsapi.org/v1/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//
+//        ArticlesApi articlesApi = retrofit.create(ArticlesApi.class);
+//
+//     Callback<java_model> callback = new Callback<java_model>() {
+//         @Override
+//         public void onResponse(Call<java_model> call, Response<java_model> response) {
+//             for(int i=0;i<1;++i) {
+//                 Log.d(TAG, "onResponse: " + response.body().getArticles()[i].getAuthor() + "\n"
+//                         + response.body().getArticles()[i].getTitle() + "\n"
+//                         + response.body().getArticles()[i].getDescription() + "\n"
+//                         + response.body().getArticles()[i].getPublishedAt() + "\n"
+//                 );
+//             }
+//
+//
+//                 for (int i = 0;i<5; ++i) {
+//                     //    java_model.Article myArticle = new java_model();
+//                     myArrayList.add(new Article(
+//                             String.valueOf(response.body().getArticles()[i].getAuthor()),
+//                             String.valueOf(response.body().getArticles()[i].getTitle()),
+//                             String.valueOf(response.body().getArticles()[i].getPublishedAt()),
+//                             String.valueOf(response.body().getArticles()[i].getDescription())));
+//
+//                 }
+//
+//
+//             myAdapter.updateNews(myArrayList);
+//
+//         }
+//
+//         @Override
+//         public void onFailure(Call<java_model> call, Throwable t) {
+//             Log.d(TAG, "onFailure: ");
+//         }
+//     };
+//        articlesApi.call_articles(source,sortBy,api_key).enqueue(callback);
+
+    }
+   void update (String source,String sortBy){
+       myArrayList.clear();
+       Retrofit retrofit = new Retrofit.Builder()
+               .baseUrl("https://newsapi.org/v1/")
+               .addConverterFactory(GsonConverterFactory.create())
+               .build();
 
 
-        ArticlesApi articlesApi = retrofit.create(ArticlesApi.class);
+       ArticlesApi articlesApi = retrofit.create(ArticlesApi.class);
 
-     Callback<java_model> callback = new Callback<java_model>() {
-         @Override
-         public void onResponse(Call<java_model> call, Response<java_model> response) {
-             for(int i=0;i<1;++i) {
-                 Log.d(TAG, "onResponse: " + response.body().getArticles()[i].getAuthor() + "\n"
-                         + response.body().getArticles()[i].getTitle() + "\n"
-                         + response.body().getArticles()[i].getDescription() + "\n"
-                         + response.body().getArticles()[i].getPublishedAt() + "\n"
-                 );
-             }
-
-
-                 for (int i = 0; i < 4; ++i) {
-                     //    java_model.Article myArticle = new java_model();
-                     myArrayList.add(new Article(
-                             String.valueOf(response.body().getArticles()[i].getAuthor()),
-                             String.valueOf(response.body().getArticles()[i].getTitle()),
-                             String.valueOf(response.body().getArticles()[i].getPublishedAt()),
-                             String.valueOf(response.body().getArticles()[i].getDescription())));
-
-                 }
+       Callback<java_model> callback = new Callback<java_model>() {
+           @Override
+           public void onResponse(Call<java_model> call, Response<java_model> response) {
+               for(int i=0;i<1;++i) {
+                   Log.d(TAG, "onResponse: " + response.body().getArticles()[i].getAuthor() + "\n"
+                           + response.body().getArticles()[i].getTitle() + "\n"
+                           + response.body().getArticles()[i].getDescription() + "\n"
+                           + response.body().getArticles()[i].getPublishedAt() + "\n"
+                   );
+               }
 
 
-             myAdapter.updateNews(myArrayList);
+               for (int i = 0;i<5; ++i) {
+                   //    java_model.Article myArticle = new java_model();
+                   myArrayList.add(new Article(
+                           String.valueOf(response.body().getArticles()[i].getAuthor()),
+                           String.valueOf(response.body().getArticles()[i].getTitle()),
+                           String.valueOf(response.body().getArticles()[i].getPublishedAt()),
+                           String.valueOf(response.body().getArticles()[i].getDescription())));
 
-         }
+               }
 
-         @Override
-         public void onFailure(Call<java_model> call, Throwable t) {
-             Log.d(TAG, "onFailure: ");
-         }
-     };
-        articlesApi.call_articles(source,sortBy,api_key).enqueue(callback);
 
+               myAdapter.updateNews(myArrayList);
+
+           }
+
+           @Override
+           public void onFailure(Call<java_model> call, Throwable t) {
+               Log.d(TAG, "onFailure: ");
+           }
+       };
+       articlesApi.call_articles(source,sortBy,api_key).enqueue(callback);
     }
 
     @Override
@@ -127,14 +172,14 @@ String source_array[] = {"al-jazeera-english","ars-technica","associated-press",
             case R.id.sortBy_spinner:
                 Log.d(TAG, "onItemSelected: " + adapterView.getItemAtPosition(i));
                 sortBy = adapterView.toString();
-                myAdapter.updateNews(myArrayList);
+             //   update(source,sortBy);
                 // do stuffs with you spinner 1
                 break;
             case R.id.source_spinner:
                 Log.d(TAG, "onItemSelected: " + adapterView.getItemAtPosition(i));
                 // do stuffs with you spinner 2
                 source = adapterView.toString();
-                myAdapter.updateNews(myArrayList);
+              //  update(source,sortBy);
                 break;
             default:
                 break;
@@ -166,8 +211,12 @@ String source_array[] = {"al-jazeera-english","ars-technica","associated-press",
     public boolean onOptionsItemSelected(MenuItem item) {
 
     int id = item.getItemId();
-        if(id == R.id.menu_source){
-       //     startActivity(new Intent(MainArticlesActivity.this,MainSourceActivity.class));
+        if(id == R.id.refresh){
+            if(source.equals("choose source")){
+                Toast.makeText(this, "Choose a source please.", Toast.LENGTH_SHORT).show();
+            }
+            else
+update(source,sortBy);
         }
         return super.onOptionsItemSelected(item);
     }
