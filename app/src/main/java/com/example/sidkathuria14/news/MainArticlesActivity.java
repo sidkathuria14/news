@@ -113,7 +113,7 @@ String source_array[] = {"choose source"  ,  "al-jazeera-english"  ,  "ars-techn
 //        articlesApi.call_articles(source,sortBy,api_key).enqueue(callback);
 
     }
-   void update (String source,String sortBy){
+   void update (final String source,String sortBy){
        myArrayList.clear();
        Retrofit retrofit = new Retrofit.Builder()
                .baseUrl("https://newsapi.org/v1/")
@@ -135,7 +135,7 @@ String source_array[] = {"choose source"  ,  "al-jazeera-english"  ,  "ars-techn
                }
 
 
-               for (int i = 0;i<5; ++i) {
+               for (int i = 0;i<response.body().getArticles().length; ++i) {
                    //    java_model.Article myArticle = new java_model();
                    myArrayList.add(new Article(
                            String.valueOf(response.body().getArticles()[i].getAuthor()),
@@ -144,7 +144,10 @@ String source_array[] = {"choose source"  ,  "al-jazeera-english"  ,  "ars-techn
                            String.valueOf(response.body().getArticles()[i].getDescription())));
 
                }
-
+if(source == "choose source"){
+    Toast.makeText(MainArticlesActivity.this, "PLease choose a source first", Toast.LENGTH_SHORT).show();
+}
+else
 
                myAdapter.updateNews(myArrayList);
 
@@ -155,6 +158,7 @@ String source_array[] = {"choose source"  ,  "al-jazeera-english"  ,  "ars-techn
                Log.d(TAG, "onFailure: ");
            }
        };
+       Log.d(TAG, "retrofit update: " + source +" "  + sortBy);
        articlesApi.call_articles(source,sortBy,api_key).enqueue(callback);
     }
 
@@ -172,6 +176,8 @@ String source_array[] = {"choose source"  ,  "al-jazeera-english"  ,  "ars-techn
             case R.id.sortBy_spinner:
                 Log.d(TAG, "onItemSelected: " + adapterView.getItemAtPosition(i));
                 sortBy = adapterView.toString();
+                Log.d(TAG, "onItemSelected: " + sortBy);
+                update(source,sortBy);
              //   update(source,sortBy);
                 // do stuffs with you spinner 1
                 break;
@@ -179,7 +185,8 @@ String source_array[] = {"choose source"  ,  "al-jazeera-english"  ,  "ars-techn
                 Log.d(TAG, "onItemSelected: " + adapterView.getItemAtPosition(i));
                 // do stuffs with you spinner 2
                 source = adapterView.toString();
-              //  update(source,sortBy);
+                Log.d(TAG, "onItemSelected: " +  source);
+                update(source,sortBy);
                 break;
             default:
                 break;
@@ -211,13 +218,16 @@ String source_array[] = {"choose source"  ,  "al-jazeera-english"  ,  "ars-techn
     public boolean onOptionsItemSelected(MenuItem item) {
 
     int id = item.getItemId();
+
+//            if(source.equals("choose source")){
+//                Toast.makeText(this, "Choose a source please.", Toast.LENGTH_SHORT).show();
+//            }
+//            else
+//update(source,sortBy);
         if(id == R.id.refresh){
-            if(source.equals("choose source")){
-                Toast.makeText(this, "Choose a source please.", Toast.LENGTH_SHORT).show();
-            }
-            else
-update(source,sortBy);
+            update(source,sortBy);
         }
+
         return super.onOptionsItemSelected(item);
     }
 }
